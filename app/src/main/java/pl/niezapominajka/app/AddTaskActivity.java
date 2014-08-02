@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,10 +23,13 @@ import task.entity.Task;
 public class AddTaskActivity extends Activity {
     // ------------ ATTRIBUTES
     private Button btSave = null;
+    private Button btDelete = null;
     private DatePicker taskDatePicker = null;
     private EditText etTaskName = null;
     private EditText etTaskDesc = null;
     private SqliteController dbController;
+    private boolean saving = true;
+    private Task currentTask = null;
 
 
     @Override
@@ -34,32 +39,82 @@ public class AddTaskActivity extends Activity {
 
         // Objects and GUI elements
         btSave = (Button) findViewById (R.id.btSaveTask);
+        btDelete = (Button) findViewById (R.id.btDeleteTask);
         taskDatePicker = (DatePicker) findViewById (R.id.taskDatePicker);
         etTaskName = (EditText) findViewById (R.id.etTaskName);
         etTaskDesc = (EditText) findViewById (R.id.etTaskDescription);
         dbController = new SqliteController (getApplicationContext ());
+
+        currentTask = new Task();
 //        dbController = new SqliteController (this);
+
+        Bundle extras = getIntent().getExtras();
+        if( extras != null ) {
+            int day, month, year;
+            String taskName = extras.getString("TASK_NAME");
+            currentTask = dbController.getTask(taskName);
+
+            day = currentTask.getDay();
+            month = currentTask.getMonth() - 1; // Monts start of 0..11
+            year = currentTask.getYear();
+
+            etTaskName.setText(currentTask.getTaskName());
+            etTaskDesc.setText(currentTask.getTaskDesc());
+            taskDatePicker.updateDate(year, month, day);
+
+            btSave.setText("Updating");
+            // set updating
+            saving = false;
+        } else {
+            btDelete.setVisibility(View.GONE);
+        }
+
 
         // listeners
         btSave.setOnClickListener (new View.OnClickListener () {
 
             @Override
             public void onClick (View view) {
-                Task newTask = null;
                 int day, month, year;
 
-                day = taskDatePicker.getDayOfMonth ();
-                month = taskDatePicker.getMonth ();
-                year = taskDatePicker.getYear ();
+                day = taskDatePicker.getDayOfMonth();
+                month = taskDatePicker.getMonth();
+                year = taskDatePicker.getYear();
 
-                newTask = new Task (0, etTaskName.getText ().toString ()
-                        , etTaskDesc.getText ().toString (), day, month, year);
+                currentTask.setTaskName(etTaskName.getText().toString());
+                currentTask.setTaskDesc(etTaskDesc.getText().toString());
+                currentTask.setDay(day);
+                currentTask.setMonth(month);
+                currentTask.setYear(year);
 
-                if ( dbController.addTask (newTask) ) {
-//                    startActivity (new Intent (getApplicationContext (), pl.niezapominajka.app.MainActivity.class));
-                    finish();
+                if(saving) {
+                    currentTask.setId(0);
+
+                    if (dbController.addTask(currentTask))
+                        finish();
+                     else {
+                        String errorMessage = "Error on write to Database.\nProbably invalid parameters";
+                        Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG);
+                    }
                 } else {
-                    String errorMessage = "Error on write to Database.\nProbably invalid parameters";
+                    if(dbController.updateTask(currentTask) > 0)
+                        finish();
+                    else {
+                        String errorMessage = "Error updating task: "+ currentTask.getTaskName() +"to Database.\nProbably invalid parameters";
+                        Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG);
+                    }
+                }
+            }
+        });
+
+        btDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (dbController.deleteTask(currentTask) > 0)
+                    finish();
+                else {
+                    String errorMessage = "Error on deleting task: "+ currentTask.getTaskName();
                     Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG);
                 }
             }

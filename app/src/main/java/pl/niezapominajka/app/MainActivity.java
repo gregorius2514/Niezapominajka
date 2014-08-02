@@ -68,6 +68,23 @@ public class MainActivity extends ActionBarActivity {
                 Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
             }
         });
+
+        lvTasksList.setLongClickable(true);
+        lvTasksList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                String selectedTaskName = tasksList.get(position).getTaskName();
+
+                Intent updateActivity = new Intent("pl.niezapominajka.app.ADDTASK");
+                updateActivity.putExtra("TASK_NAME", selectedTaskName);
+
+                startActivity(updateActivity);
+//                finish();
+
+                return true;
+            }
+        });
+
 //TODO refactor/cleanup code
     }
 

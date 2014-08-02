@@ -1,48 +1,73 @@
 <RelativeLayout
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/taskDatePicker">
+    xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/etTask"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:textAlignment="center"
-        android:text="@string/task_name"
-        android:editable="true"
-        android:clickable="false"
-        android:autoText="false" />
 
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textMultiLine"
-        android:ems="10"
-        android:id="@+id/editText"
-        android:layout_below="@+id/etTask"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:text="@string/task_desc" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/save_task"
-        android:id="@+id/btSaveTask"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/etTaskName"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:textAlignment="center"
+            android:text="@string/task_name"
+            android:editable="true"
+            android:clickable="false"
+            android:autoText="false"
+            android:layout_weight="0.12" />
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:ems="10"
+            android:id="@+id/etTaskDescription"
+            android:layout_below="@+id/etTaskName"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:text="@string/task_desc"
+            android:layout_weight="0.46"
+            android:layout_above="@+id/taskDatePicker" />
 
     <DatePicker
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/datePicker"
+        android:id="@+id/taskDatePicker"
         android:calendarViewShown="false"
-        android:layout_above="@+id/btAddTask"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="80dp" />
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Delete"
+            android:id="@+id/btDeleteTask"
+            android:layout_toEndOf="@+id/btSaveTask"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_weight="0.50" />
+
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/save_task"
+                android:id="@+id/btSaveTask"
+                android:layout_alignTop="@+id/button"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+            android:layout_weight="0.50" />
+    </LinearLayout>
 </RelativeLayout>
