@@ -20,11 +20,20 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="pl.niezapominajka.app.ADDTASK" />
+                <action android:name="pl.niezapominajka.app.ADD_TASK" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-
         </activity>
+
+        <activity android:name="pl.niezapominajka.app.UpdateTaskActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="pl.niezapominajka.app.UPDATE_TASK" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
     </application>
 
 </manifest>

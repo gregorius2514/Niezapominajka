@@ -1,32 +1,16 @@
 <RelativeLayout
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/taskDatePicker">
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <EditText
-        android:layout_width="fill_parent"
+    <ListView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/etTask"
+        android:id="@+id/listOfTasks"
         android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:textAlignment="center"
-        android:text="@string/task_name"
-        android:editable="true"
-        android:clickable="false"
-        android:autoText="false" />
-
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textMultiLine"
-        android:ems="10"
-        android:id="@+id/editText"
-        android:layout_below="@+id/etTask"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:text="@string/task_desc" />
+        android:layout_above="@+id/btAddTask" />
 
     <Button
         android:layout_width="wrap_content"
@@ -34,16 +18,17 @@
         android:text="@string/add_task"
         android:id="@+id/btAddTask"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="77dp" />
 
-    <DatePicker
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/datePicker"
-        android:calendarViewShown="false"
-        android:layout_above="@+id/btAddTask"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="80dp" />
-
-
+        android:text="Edit"
+        android:id="@+id/btEditTask"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="83dp" />
 </RelativeLayout><!-- From: file:/home/grzesiek/Dokumenty/Android_workspace/Niezapominajka/app/src/main/res/layout/activity_main.xml -->

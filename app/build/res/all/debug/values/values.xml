@@ -549,6 +549,7 @@
     <string name="add_task">Add</string>
     <string name="app_name">Niezapominajka</string>
     <string name="hello_world">Hello world!</string>
+    <string name="save_task">Save</string>
     <string name="task_desc">Task description</string>
     <string name="task_name">Task name</string>
     <!-- From: file:/home/grzesiek/Dokumenty/Android_workspace/Niezapominajka/app/src/main/res/values/styles.xml -->

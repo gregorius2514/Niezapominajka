@@ -8301,6 +8301,8 @@ true
                 </string>
                 <string name="task_name" >Task name
                 </string>
+                <string name="save_task" >Save
+                </string>
                 <string name="add_task" >Add
                 </string>
             </file>
@@ -8333,6 +8335,11 @@ true
                 path="/home/grzesiek/Dokumenty/Android_workspace/Niezapominajka/app/src/main/res/drawable-xxhdpi/ic_launcher.png"
                 qualifiers="xxhdpi"
                 type="drawable" />
+            <file
+                name="add_task"
+                path="/home/grzesiek/Dokumenty/Android_workspace/Niezapominajka/app/src/main/res/layout/add_task.xml"
+                qualifiers=""
+                type="layout" />
         </source>
         <source path="/home/grzesiek/Dokumenty/Android_workspace/Niezapominajka/app/build/res/rs/debug" />
         <source path="/home/grzesiek/Dokumenty/Android_workspace/Niezapominajka/app/build/res/generated/debug" />

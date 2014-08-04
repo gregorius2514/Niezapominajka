@@ -15,12 +15,30 @@
         <!-- android:layout_above="@+id/btAddTask" -->
 
 
-    <Button
+    <!--<Button
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/add_task"
+        android:text="@string/button_new"
         android:id="@+id/btAddTask"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true" />-->
+
+    <Button
+        android:id="@+id/btAddTask"
+
+        android:text="@string/button_new"
+        android:textColor="#EDEDED"
+        android:textSize="25sp"
+
+        android:background="@drawable/positive_button_shape"
+        android:shadowColor="#000000"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="3"
+
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"/>
 
 </RelativeLayout>
