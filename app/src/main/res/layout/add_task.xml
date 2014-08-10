@@ -6,9 +6,10 @@
 
 
     <EditText
+        android:id="@+id/etTaskName"
+
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/etTaskName"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
@@ -20,11 +21,12 @@
         android:layout_weight="0.12" />
 
     <EditText
+        android:id="@+id/etTaskDescription"
+
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:inputType="textMultiLine"
         android:ems="10"
-        android:id="@+id/etTaskDescription"
         android:layout_below="@+id/etTaskName"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -33,20 +35,32 @@
         android:layout_above="@+id/taskDatePicker" />
 
     <DatePicker
+        android:id="@+id/taskDatePicker"
+
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/taskDatePicker"
         android:calendarViewShown="false"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
     <Button
+        android:id="@+id/btSaveTask"
+
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/button_save"
-        android:id="@+id/btSaveTask"
         android:layout_weight="0.50"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+
+        android:text="@string/button_save"
+        android:textColor="#EDEDED"
+        android:textSize="25sp"
+
+        android:background="@drawable/positive_button_shape"
+        android:shadowColor="#000000"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="3" />
+
 </RelativeLayout>

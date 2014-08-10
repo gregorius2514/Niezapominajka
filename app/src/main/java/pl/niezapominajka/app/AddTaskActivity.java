@@ -29,17 +29,16 @@ public class AddTaskActivity extends Activity {
         super.onCreate (savedInstanceState);
         setContentView (R.layout.add_task);
 
-        // Objects and GUI elements
         btSave = (Button) findViewById (R.id.btSaveTask);
         btDelete = (Button) findViewById (R.id.btDeleteTask);
         taskDatePicker = (DatePicker) findViewById (R.id.taskDatePicker);
         etTaskName = (EditText) findViewById (R.id.etTaskName);
         etTaskDesc = (EditText) findViewById (R.id.etTaskDescription);
-        dbController = DBSingleton.getInstance(this);
+        dbController = DBSingleton.getInstance (this);
 
         btSaveClickEvent();
-        etTaskName.setOnFocusChangeListener (new FocusListener());
-        etTaskDesc.setOnFocusChangeListener (new FocusListener());
+        etTaskName.setOnFocusChangeListener (new FocusListener (getString (R.string.task_name)));
+        etTaskDesc.setOnFocusChangeListener (new FocusListener (getString (R.string.task_desc)));
 
     }
 
@@ -47,7 +46,7 @@ public class AddTaskActivity extends Activity {
     public boolean onCreateOptionsMenu (Menu menu) {
 
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater ().inflate (R.menu.main, menu);
+        getMenuInflater().inflate (R.menu.main, menu);
         return true;
     }
 
@@ -56,15 +55,16 @@ public class AddTaskActivity extends Activity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId ();
-        if  (id == R.id.action_settings) {
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
             return true;
         }
+
         return super.onOptionsItemSelected (item);
     }
 
-    private void btSaveClickEvent () {
-        btSave.setOnClickListener (new View.OnClickListener () {
+    private void btSaveClickEvent() {
+        btSave.setOnClickListener (new View.OnClickListener() {
 
             @Override
             public void onClick (View view) {
@@ -75,22 +75,30 @@ public class AddTaskActivity extends Activity {
                 taskName = etTaskName.getText().toString();
                 taskDesc = etTaskDesc.getText().toString();
                 day = taskDatePicker.getDayOfMonth();
-                month = taskDatePicker.getMonth() + 1; // months are count from 0..11
+                month = taskDatePicker.getMonth() + 1; // months starts of 0..11
                 year = taskDatePicker.getYear();
+
+                if (taskName.length() == 0) {
+                    String error_message_name = getString(R.string.task_name_error);
+                    Toast.makeText(getApplicationContext(), error_message_name, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (taskDesc.length() == 0) {
+                    String error_message_desc = getString(R.string.task_desc_error);
+                    Toast.makeText(getApplicationContext(), error_message_desc, Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 currentTask = new Task(0, taskName, taskDesc, day, month, year);
 
                 if (dbController.addTask(currentTask))
                     finish();
                 else {
-                    String errorMessage = "Error on write to Database.\nProbably invalid parameters";
+                    String errorMessage = "Error on write to Database. \nProbably invalid parameters";
                     Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG);
                 }
             }
         });
-
     }
-
-
-
-} // AddTaskActivity
+}

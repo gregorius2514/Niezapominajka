@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import database.DBSingleton;
 import database.SqliteController;
@@ -22,27 +23,30 @@ public class UpdateTaskActivity extends Activity {
 
     @Override
     protected void onCreate (Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.update_task);
+        super.onCreate (savedInstanceState);
+        setContentView (R.layout.update_task);
 
-        btUpdate = (Button) findViewById(R.id.btUpdateTask);
-        btDelete = (Button) findViewById(R.id.btDeleteTask);
-        taskDatePicker = (DatePicker) findViewById(R.id.taskDatePicker_update);
-        etTaskName = (EditText) findViewById(R.id.etTaskName_update);
-        etTaskDesc = (EditText) findViewById(R.id.etTaskDescription_update);
-        dbController = DBSingleton.getInstance(this);
+        btUpdate = (Button) findViewById (R.id.btUpdateTask);
+        btDelete = (Button) findViewById (R.id.btDeleteTask);
+        taskDatePicker = (DatePicker) findViewById (R.id.taskDatePicker_update);
+        etTaskName = (EditText) findViewById (R.id.etTaskName_update);
+        etTaskDesc = (EditText) findViewById (R.id.etTaskDescription_update);
+        dbController = DBSingleton.getInstance (this);
         currentTask = new Task();
 
         getTaskInfo();
         btUpdateClickEvent();
         btDeleteClickEvent();
+
+        etTaskName.setOnFocusChangeListener (new FocusListener (getString (R.string.task_name)));
+        etTaskDesc.setOnFocusChangeListener (new FocusListener (getString (R.string.task_desc)));
     }
 
-    private void btUpdateClickEvent () {
-        btUpdate.setOnClickListener(new View.OnClickListener() {
+    private void btUpdateClickEvent() {
+        btUpdate.setOnClickListener (new View.OnClickListener() {
 
             @Override
-            public void onClick(View view) {
+            public void onClick (View view) {
                 int day, month, year;
                 String taskName, taskDesc;
 
@@ -52,7 +56,19 @@ public class UpdateTaskActivity extends Activity {
                 month = taskDatePicker.getMonth() + 1;
                 year = taskDatePicker.getYear();
 
-                currentTask.setTaskName(taskName);
+                if (taskName.length() == 0) {
+                    String error_message_name = getString (R.string.task_name_error);
+                    Toast.makeText (getApplicationContext(), error_message_name, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (taskDesc.length() == 0) {
+                    String error_message_desc = getString (R.string.task_desc_error);
+                    Toast.makeText (getApplicationContext(), error_message_desc, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                currentTask.setTaskName (taskName);
                 currentTask.setTaskDesc(taskDesc);
                 currentTask.setDay(day);
                 currentTask.setMonth(month);
@@ -64,33 +80,33 @@ public class UpdateTaskActivity extends Activity {
         });
     }
 
-    private void btDeleteClickEvent () {
-        btDelete.setOnClickListener(new View.OnClickListener() {
+    private void btDeleteClickEvent() {
+        btDelete.setOnClickListener (new View.OnClickListener() {
 
             @Override
-            public void onClick(View view) {
+            public void onClick (View view) {
 
-                if (dbController.deleteTask(currentTask) > 0)
+                if (dbController.deleteTask (currentTask) > 0)
                     finish();
             }
         });
     }
 
-    private void getTaskInfo () {
+    private void getTaskInfo() {
         Bundle extras = getIntent().getExtras();
 
         if (extras != null) {
             int day, month, year;
-            String taskName = extras.getString("TASK_NAME");
-            currentTask = dbController.getTask(taskName);
+            String taskName = extras.getString ("TASK_NAME");
+            currentTask = dbController.getTask (taskName);
 
             day = currentTask.getDay();
-            month = currentTask.getMonth() - 1; // in datapicker month are started from 0..11
+            month = currentTask.getMonth() - 1; // in datapicker month starts of 0..11
             year = currentTask.getYear();
 
-            etTaskName.setText(currentTask.getTaskName());
-            etTaskDesc.setText(currentTask.getTaskDesc());
-            taskDatePicker.updateDate(year, month, day);
+            etTaskName.setText (currentTask.getTaskName());
+            etTaskDesc.setText (currentTask.getTaskDesc());
+            taskDatePicker.updateDate (year, month, day);
         }
     }
 }

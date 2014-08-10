@@ -10,5 +10,7 @@
     <string name="button_save">Save</string>
     <string name="button_update">Update</string>
     <string name="button_delete">Delete</string>
+    <string name="task_name_error">Task name cannot be empty</string>
+    <string name="task_desc_error">Task description cannot be empty</string>
 
 </resources>
