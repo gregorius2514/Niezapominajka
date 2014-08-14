@@ -50,7 +50,6 @@ public class MainActivity extends ActionBarActivity {
         // --- GUI elements
         btAddTask = (Button) findViewById(R.id.btAddTask);
         lvTasksList = (ListView) findViewById(R.id.listOfTasks);
-//        dbController = new SqliteController(this);
         dbController = DBSingleton.getInstance(this);
 
         // --- Listeners
@@ -146,21 +145,28 @@ public class MainActivity extends ActionBarActivity {
             description.setText(currentTask.getTaskDesc());
 
             checkedDate = compareDate(currentTask);
-//            Log.d("Task " + currentTask.getTaskName(), "DataTime " + checkedDate);
-            if(checkedDate == 0) {
-                // red color
-                title.setTextColor(Color.RED);
-                title.setPaintFlags(title.getPaintFlags() & (~ Paint.STRIKE_THRU_TEXT_FLAG));
-                description.setTextColor(Color.RED);
-                description.setPaintFlags(description.getPaintFlags() & (~ Paint.STRIKE_THRU_TEXT_FLAG));
-                itemView.setBackgroundColor(Color.WHITE);
-            } else if(checkedDate < 0) {
-                // grey color
-                title.setTextColor(Color.GRAY);
-                title.setPaintFlags(title.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-                description.setTextColor(Color.GRAY);
-                description.setPaintFlags(description.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-                itemView.setBackgroundColor(Color.LTGRAY);
+            switch (checkedDate) {
+                case 0 : // red color
+                    title.setTextColor (Color.RED);
+                    title.setPaintFlags (title.getPaintFlags() & (~ Paint.STRIKE_THRU_TEXT_FLAG));
+                    description.setTextColor (Color.RED);
+                    description.setPaintFlags (description.getPaintFlags() & (~ Paint.STRIKE_THRU_TEXT_FLAG));
+                    itemView.setBackgroundColor (Color.WHITE);
+                    break;
+                case 1 :
+                    title.setTextColor (Color.BLACK);
+                    title.setPaintFlags (title.getPaintFlags());
+                    description.setTextColor (Color.GRAY);
+                    description.setPaintFlags (description.getPaintFlags());
+                    itemView.setBackgroundColor (Color.WHITE);
+                    break;
+                case -1 : // grey color
+                    title.setTextColor (Color.GRAY);
+                    title.setPaintFlags (title.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                    description.setTextColor (Color.GRAY);
+                    description.setPaintFlags (description.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                    itemView.setBackgroundColor (Color.LTGRAY);
+                    break;
             }
 
             return itemView;

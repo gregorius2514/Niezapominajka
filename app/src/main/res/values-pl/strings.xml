@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Niezapominajka</string>
+    <string name="action_settings">Ustawienia</string>
+    <string name="task_name">Nazwa zadania</string>
+    <string name="task_desc">Opis zadania</string>
+    <string name="button_new">Nowe</string>
+    <string name="button_save">Zapisz</string>
+    <string name="button_update">Popraw</string>
+    <string name="button_delete">Usuń</string>
+    <string name="task_name_error">Nazwa zadania nie może być pusta</string>
+    <string name="task_desc_error">Opis zadania nie może być pusty</string>
+
+</resources>
