@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color
+     name="Red" >
+        #EB0505
+    </color>
+    <color
+        name="Blue" >
+        #34ADE0
+    </color>
+    <color
+        name="Green" >
+        #22E055
+    </color>
+</resources>

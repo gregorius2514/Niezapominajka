@@ -74,18 +74,12 @@ public class SqliteController extends SQLiteOpenHelper{
             return true;
     }
 
-    // Getting Single Task
-    public Task getTask (String taskName) {
+    public Task getTask (int taskId) {
         SQLiteDatabase db = this.getReadableDatabase();
 
-
-        // !! FOR TESTS
-        assert db != null;
-        // TODO Remove line above after tests
-
         Cursor cursor = db.query (TABLE_NAME, new String[] { KEY_ID, KEY_NAME,
-                        KEY_DESC, KEY_DAY, KEY_MONTH, KEY_YEAR }, KEY_NAME + "=?",
-                new String[] { taskName }, null, null, null, null);
+                        KEY_DESC, KEY_DAY, KEY_MONTH, KEY_YEAR }, KEY_ID + "=?",
+                new String[] { String.valueOf (taskId) }, null, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
 
@@ -93,11 +87,9 @@ public class SqliteController extends SQLiteOpenHelper{
                 cursor.getString (1), cursor.getString (2), Integer.parseInt (cursor.getString (3)),
                 Integer.parseInt (cursor.getString (4)), Integer.parseInt (cursor.getString (5)));
 
-        // return contact
         return task;
     }
 
-    // Getting All Tasks
     public List<Task> getAllTasks() {
 
         List<Task> contactList = new ArrayList<Task>();
@@ -111,7 +103,7 @@ public class SqliteController extends SQLiteOpenHelper{
         if (cursor.moveToFirst()) {
             do {
                 Task task = new Task();
-                task.setId (Integer.parseInt (cursor.getString (0)));
+                task.setTaskId (Integer.parseInt (cursor.getString (0)));
                 task.setTaskName (cursor.getString (1));
                 task.setTaskDesc (cursor.getString (2));
                 task.setDay (Integer.parseInt (cursor.getString (3)));
@@ -122,21 +114,9 @@ public class SqliteController extends SQLiteOpenHelper{
             } while (cursor.moveToNext());
         }
 
-        // return contact list
         return contactList;
     }
 
-    // Getting Tasks Count
-    public int getTasksCount() {
-
-        String countQuery = "SELECT  * FROM " + TABLE_NAME;
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery (countQuery, null);
-        cursor.close();
-
-        // return count
-        return cursor.getCount();
-    }
     // Updating single Task
     public int updateTask (Task task) {
 
@@ -149,16 +129,14 @@ public class SqliteController extends SQLiteOpenHelper{
         values.put (KEY_MONTH, task.getMonth());
         values.put (KEY_YEAR, task.getYear());
 
-        // updating row
-        return db.update (TABLE_NAME, values, KEY_ID + "=" + task.getId(), null);
+        return db.update (TABLE_NAME, values, KEY_ID + "=" + task.getTaskId(), null);
     }
 
-    // Deleting single Task
     public int deleteTask (Task task) {
 
         SQLiteDatabase db = this.getWritableDatabase();
-        int value = db.delete (TABLE_NAME, KEY_NAME + " = ?",
-                new String[] { String.valueOf (task.getTaskName()) });
+        int value = db.delete (TABLE_NAME, KEY_ID + " = ?",
+                new String[] { String.valueOf (task.getTaskId()) });
         db.close();
 
         return value;

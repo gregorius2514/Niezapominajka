@@ -26,8 +26,6 @@ public class UpdateTaskActivity extends Activity {
     @Override
     protected void onCreate (Bundle savedInstanceState) {
         super.onCreate (savedInstanceState);
-        // TODO naprawic w database sql z tworzeniem tablicy task id starts with 0 ....
-        // TODO poprawic kod w MAINACTIVITY
 
         requestWindowFeature (Window.FEATURE_NO_TITLE);
         getWindow().setFlags (WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -105,8 +103,8 @@ public class UpdateTaskActivity extends Activity {
 
         if (extras != null) {
             int day, month, year;
-            String taskName = extras.getString ("TASK_NAME");
-            currentTask = dbController.getTask (taskName);
+            int taskId = extras.getInt ("TASK_ID");
+            currentTask = dbController.getTask (taskId);
 
             day = currentTask.getDay();
             month = currentTask.getMonth() - 1; // in datapicker month starts of 0..11

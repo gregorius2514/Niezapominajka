@@ -23,11 +23,11 @@ public class Task {
         this.year = year;
     }
 
-    public int getId() {
+    public int getTaskId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setTaskId(int id) {
         this.id = id;
     }
 

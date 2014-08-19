@@ -57,7 +57,7 @@
         android:textColor="#EDEDED"
         android:textSize="25sp"
 
-        android:background="@drawable/positive_button_shape"
+        android:background="@color/Blue"
         android:shadowColor="#000000"
         android:shadowDx="0"
         android:shadowDy="0"

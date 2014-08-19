@@ -1,19 +1,16 @@
 package pl.niezapominajka.app;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -21,9 +18,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import database.DBSingleton;
@@ -31,6 +26,10 @@ import database.SqliteController;
 import task.entity.Task;
 
 public class MainActivity extends ActionBarActivity {
+    // ------------ CONSTANT
+    private final int TASK_DONE = -1;
+    private final int TASK_ENDS_TODAY = 0;
+    private final int TASK_NOT_DONE = 1;
     // ------------ ATTRIBUTES
     private Button btAddTask = null;
     private ListView lvTasksList = null;
@@ -45,7 +44,6 @@ public class MainActivity extends ActionBarActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_main);
-
 
         // --- GUI elements
         btAddTask = (Button) findViewById(R.id.btAddTask);
@@ -62,26 +60,26 @@ public class MainActivity extends ActionBarActivity {
 
 
 
-        lvTasksList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        lvTasksList.setOnItemClickListener (new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Task task = tasksList.get(position);
+                Task task = tasksList.get (position);
 
                 String text = task.getDay() + "/" + task.getMonth() + "/" + task.getYear();
-                Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
+                Toast.makeText (getApplicationContext(), text, Toast.LENGTH_SHORT).show();
             }
         });
 
-        lvTasksList.setLongClickable(true);
-        lvTasksList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        lvTasksList.setLongClickable (true);
+        lvTasksList.setOnItemLongClickListener (new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                String selectedTaskName = tasksList.get(position).getTaskName();
+                int selectedTaskId = tasksList.get(position).getTaskId();
 
-                Intent updateActivity = new Intent("pl.niezapominajka.app.UPDATE_TASK");
-                updateActivity.putExtra("TASK_NAME", selectedTaskName);
+                Intent updateActivity = new Intent ("pl.niezapominajka.app.UPDATE_TASK");
+                updateActivity.putExtra ("TASK_ID", selectedTaskId);
 
-                startActivity(updateActivity);
+                startActivity (updateActivity);
                 return true;
             }
         });
@@ -91,18 +89,15 @@ public class MainActivity extends ActionBarActivity {
 
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu (Menu menu) {
 
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
         if (id == R.id.action_settings) {
             return true;
@@ -146,21 +141,21 @@ public class MainActivity extends ActionBarActivity {
 
             checkedDate = compareDate(currentTask);
             switch (checkedDate) {
-                case 0 : // red color
+                case TASK_ENDS_TODAY : // red color
                     title.setTextColor (Color.RED);
-                    title.setPaintFlags (title.getPaintFlags() & (~ Paint.STRIKE_THRU_TEXT_FLAG));
+                    title.setPaintFlags (0);
                     description.setTextColor (Color.RED);
-                    description.setPaintFlags (description.getPaintFlags() & (~ Paint.STRIKE_THRU_TEXT_FLAG));
+                    description.setPaintFlags (0);
                     itemView.setBackgroundColor (Color.WHITE);
                     break;
-                case 1 :
+                case TASK_NOT_DONE :
                     title.setTextColor (Color.BLACK);
-                    title.setPaintFlags (title.getPaintFlags());
+                    title.setPaintFlags (0);
                     description.setTextColor (Color.GRAY);
-                    description.setPaintFlags (description.getPaintFlags());
+                    description.setPaintFlags (0);
                     itemView.setBackgroundColor (Color.WHITE);
                     break;
-                case -1 : // grey color
+                case TASK_DONE : // grey color
                     title.setTextColor (Color.GRAY);
                     title.setPaintFlags (title.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                     description.setTextColor (Color.GRAY);
@@ -187,21 +182,21 @@ public class MainActivity extends ActionBarActivity {
         tyear = t.getYear();
 
         if (year < tyear)
-            return 1; // czas na wykonanie zadania jeszcze nie uplynal
+            return TASK_NOT_DONE;
         else if(year > tyear)
-            return -1; // czas uplynal
+            return TASK_DONE;
         else {
             if (month < tmonth)
-                return 1;
+                return TASK_NOT_DONE;
             else if (month > tmonth)
-                return -1;
+                return TASK_DONE;
             else {
                 if (day < tday)
-                    return 1;
+                    return TASK_NOT_DONE;
                 else if (day > tday)
-                    return -1;
+                    return TASK_DONE;
                 else
-                    return 0; // czas na wykonanie zadania uplywa dzisiaj
+                    return TASK_ENDS_TODAY;
             }
         }
     }
