@@ -1,14 +1,10 @@
 package task.entity;
 
 public class Task {
-
-    // private attributes
     int id;
     String taskName = null;
     String taskDesc = null;
     int day, month, year;
-
-    // constructors
 
     public Task() {
     }

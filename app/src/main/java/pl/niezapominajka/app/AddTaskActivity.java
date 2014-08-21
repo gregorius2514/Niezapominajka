@@ -27,50 +27,48 @@ public class AddTaskActivity extends Activity {
 
 
     @Override
-    protected void onCreate (Bundle savedInstanceState) {
-        super.onCreate (savedInstanceState);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-        requestWindowFeature (Window.FEATURE_NO_TITLE);
-        getWindow().setFlags (WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        setContentView (R.layout.add_task);
+        setContentView(R.layout.add_task);
 
-        btSave = (Button) findViewById (R.id.btSaveTask);
-        btDelete = (Button) findViewById (R.id.btDeleteTask);
-        taskDatePicker = (DatePicker) findViewById (R.id.taskDatePicker);
-        etTaskName = (EditText) findViewById (R.id.etTaskName);
-        etTaskDesc = (EditText) findViewById (R.id.etTaskDescription);
-        dbController = DBSingleton.getInstance (this);
+        btSave = (Button) findViewById(R.id.btSaveTask);
+        btDelete = (Button) findViewById(R.id.btDeleteTask);
+        taskDatePicker = (DatePicker) findViewById(R.id.taskDatePicker);
+        etTaskName = (EditText) findViewById(R.id.etTaskName);
+        etTaskDesc = (EditText) findViewById(R.id.etTaskDescription);
+        dbController = DBSingleton.getInstance(this);
 
         btSaveClickEvent();
-        etTaskName.setOnFocusChangeListener (new FocusListener (getString (R.string.task_name)));
-        etTaskDesc.setOnFocusChangeListener (new FocusListener (getString (R.string.task_desc)));
+
+        etTaskName.setOnFocusChangeListener(new FocusListener(getString(R.string.task_name)));
+        etTaskDesc.setOnFocusChangeListener(new FocusListener(getString(R.string.task_desc)));
 
     }
 
     @Override
-    public boolean onCreateOptionsMenu (Menu menu) {
-
-        getMenuInflater().inflate (R.menu.main, menu);
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected (MenuItem item) {
-
+    public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
+        if(id == R.id.action_settings) {
             return true;
         }
-
-        return super.onOptionsItemSelected (item);
+        return super.onOptionsItemSelected(item);
     }
 
     private void btSaveClickEvent() {
-        btSave.setOnClickListener (new View.OnClickListener() {
+        btSave.setOnClickListener(new View.OnClickListener() {
 
             @Override
-            public void onClick (View view) {
+            public void onClick(View view) {
                 int day, month, year;
                 String taskName, taskDesc;
                 Task currentTask = null;
@@ -86,15 +84,12 @@ public class AddTaskActivity extends Activity {
                     Toast.makeText(getApplicationContext(), error_message_name, Toast.LENGTH_SHORT).show();
                     return;
                 }
-
                 if (taskDesc.length() == 0) {
                     String error_message_desc = getString(R.string.task_desc_error);
                     Toast.makeText(getApplicationContext(), error_message_desc, Toast.LENGTH_SHORT).show();
                     return;
                 }
-
                 currentTask = new Task(0, taskName, taskDesc, day, month, year);
-
                 if (dbController.addTask(currentTask))
                     finish();
                 else {

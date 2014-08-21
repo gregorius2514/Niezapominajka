@@ -26,11 +26,11 @@ import database.SqliteController;
 import task.entity.Task;
 
 public class MainActivity extends ActionBarActivity {
-    // ------------ CONSTANT
+    // constant use in date comparator
     private final int TASK_DONE = -1;
     private final int TASK_ENDS_TODAY = 0;
     private final int TASK_NOT_DONE = 1;
-    // ------------ ATTRIBUTES
+
     private Button btAddTask = null;
     private ListView lvTasksList = null;
     private SqliteController dbController = null;
@@ -45,12 +45,10 @@ public class MainActivity extends ActionBarActivity {
 
         setContentView(R.layout.activity_main);
 
-        // --- GUI elements
         btAddTask = (Button) findViewById(R.id.btAddTask);
         lvTasksList = (ListView) findViewById(R.id.listOfTasks);
         dbController = DBSingleton.getInstance(this);
 
-        // --- Listeners
         btAddTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -58,46 +56,40 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
-
-
-        lvTasksList.setOnItemClickListener (new AdapterView.OnItemClickListener() {
+        lvTasksList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Task task = tasksList.get (position);
+                Task task = tasksList.get(position);
 
                 String text = task.getDay() + "/" + task.getMonth() + "/" + task.getYear();
-                Toast.makeText (getApplicationContext(), text, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
             }
         });
 
-        lvTasksList.setLongClickable (true);
-        lvTasksList.setOnItemLongClickListener (new AdapterView.OnItemLongClickListener() {
+        lvTasksList.setLongClickable(true);
+        lvTasksList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 int selectedTaskId = tasksList.get(position).getTaskId();
 
-                Intent updateActivity = new Intent ("pl.niezapominajka.app.UPDATE_TASK");
-                updateActivity.putExtra ("TASK_ID", selectedTaskId);
+                Intent updateActivity = new Intent("pl.niezapominajka.app.UPDATE_TASK");
+                updateActivity.putExtra("TASK_ID", selectedTaskId);
 
-                startActivity (updateActivity);
+                startActivity(updateActivity);
                 return true;
             }
         });
-
-//TODO refactor/cleanup code
     }
 
 
     @Override
-    public boolean onCreateOptionsMenu (Menu menu) {
-
+    public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         int id = item.getItemId();
         if (id == R.id.action_settings) {
             return true;
@@ -110,14 +102,11 @@ public class MainActivity extends ActionBarActivity {
         super.onResume();
         // refresh listView
         tasksList = dbController.getAllTasks();
-
         ArrayAdapter adapter = new TasksAdapter();
         lvTasksList.setAdapter(adapter);
-
     }
 
     private class TasksAdapter extends ArrayAdapter {
-
         public TasksAdapter() {
             super(MainActivity.this, R.layout.task_layout, tasksList);
         }
@@ -132,7 +121,6 @@ public class MainActivity extends ActionBarActivity {
             }
 
             Task currentTask = tasksList.get(position);
-
             TextView title = (TextView) itemView.findViewById(R.id.title);
             title.setText(currentTask.getTaskName());
 
@@ -142,25 +130,25 @@ public class MainActivity extends ActionBarActivity {
             checkedDate = compareDate(currentTask);
             switch (checkedDate) {
                 case TASK_ENDS_TODAY : // red color
-                    title.setTextColor (Color.RED);
-                    title.setPaintFlags (0);
-                    description.setTextColor (Color.RED);
-                    description.setPaintFlags (0);
-                    itemView.setBackgroundColor (Color.WHITE);
+                    title.setTextColor(Color.RED);
+                    title.setPaintFlags(0);
+                    description.setTextColor(Color.RED);
+                    description.setPaintFlags(0);
+                    itemView.setBackgroundColor(Color.WHITE);
                     break;
-                case TASK_NOT_DONE :
-                    title.setTextColor (Color.BLACK);
-                    title.setPaintFlags (0);
-                    description.setTextColor (Color.GRAY);
-                    description.setPaintFlags (0);
-                    itemView.setBackgroundColor (Color.WHITE);
+                case TASK_NOT_DONE : // white color
+                    title.setTextColor(Color.BLACK);
+                    title.setPaintFlags(0);
+                    description.setTextColor(Color.GRAY);
+                    description.setPaintFlags(0);
+                    itemView.setBackgroundColor(Color.WHITE);
                     break;
                 case TASK_DONE : // grey color
-                    title.setTextColor (Color.GRAY);
-                    title.setPaintFlags (title.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-                    description.setTextColor (Color.GRAY);
-                    description.setPaintFlags (description.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-                    itemView.setBackgroundColor (Color.LTGRAY);
+                    title.setTextColor(Color.GRAY);
+                    title.setPaintFlags(title.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                    description.setTextColor(Color.GRAY);
+                    description.setPaintFlags(description.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                    itemView.setBackgroundColor(Color.LTGRAY);
                     break;
             }
 
