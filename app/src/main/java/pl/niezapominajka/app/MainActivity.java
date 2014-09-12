@@ -1,9 +1,9 @@
 package pl.niezapominajka.app;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,7 +25,7 @@ import database.DBSingleton;
 import database.SqliteController;
 import task.entity.Task;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends Activity {
     // constant use in date comparator
     private final int TASK_DONE = -1;
     private final int TASK_ENDS_TODAY = 0;
@@ -84,17 +84,19 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
+//        getMenuInflater().inflate(R.menu.main, menu);
         return true;
+
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+//        int id = item.getItemId();
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
+//        return super.onOptionsItemSelected(item);
+        return true;
     }
 
     @Override

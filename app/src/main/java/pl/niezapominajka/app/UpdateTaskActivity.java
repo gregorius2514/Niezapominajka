@@ -67,11 +67,7 @@ public class UpdateTaskActivity extends Activity {
                     Toast.makeText(getApplicationContext(), error_message_name, Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (taskDesc.length() == 0) {
-                    String error_message_desc = getString (R.string.task_desc_error);
-                    Toast.makeText(getApplicationContext(), error_message_desc, Toast.LENGTH_SHORT).show();
-                    return;
-                }
+                
                 currentTask.setTaskName(taskName);
                 currentTask.setTaskDesc(taskDesc);
                 currentTask.setDay(day);

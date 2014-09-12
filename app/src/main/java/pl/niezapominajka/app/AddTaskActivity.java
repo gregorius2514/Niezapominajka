@@ -51,16 +51,16 @@ public class AddTaskActivity extends Activity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
+//        getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if(id == R.id.action_settings) {
-            return true;
-        }
+//        int id = item.getItemId();
+//        if(id == R.id.action_settings) {
+//            return true;
+//        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -84,11 +84,11 @@ public class AddTaskActivity extends Activity {
                     Toast.makeText(getApplicationContext(), error_message_name, Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (taskDesc.length() == 0) {
-                    String error_message_desc = getString(R.string.task_desc_error);
-                    Toast.makeText(getApplicationContext(), error_message_desc, Toast.LENGTH_SHORT).show();
-                    return;
-                }
+//                if (taskDesc.length() == 0) {
+//                    String error_message_desc = getString(R.string.task_desc_error);
+//                    Toast.makeText(getApplicationContext(), error_message_desc, Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
                 currentTask = new Task(0, taskName, taskDesc, day, month, year);
                 if (dbController.addTask(currentTask))
                     finish();
